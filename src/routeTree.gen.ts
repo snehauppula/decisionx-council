@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RippleRouteImport } from './routes/ripple'
 import { Route as PulseRouteImport } from './routes/pulse'
 import { Route as CouncilRouteImport } from './routes/council'
 import { Route as IndexRouteImport } from './routes/index'
 
+const RippleRoute = RippleRouteImport.update({
+  id: '/ripple',
+  path: '/ripple',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PulseRoute = PulseRouteImport.update({
   id: '/pulse',
   path: '/pulse',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/council': typeof CouncilRoute
   '/pulse': typeof PulseRoute
+  '/ripple': typeof RippleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/council': typeof CouncilRoute
   '/pulse': typeof PulseRoute
+  '/ripple': typeof RippleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/council': typeof CouncilRoute
   '/pulse': typeof PulseRoute
+  '/ripple': typeof RippleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/council' | '/pulse'
+  fullPaths: '/' | '/council' | '/pulse' | '/ripple'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/council' | '/pulse'
-  id: '__root__' | '/' | '/council' | '/pulse'
+  to: '/' | '/council' | '/pulse' | '/ripple'
+  id: '__root__' | '/' | '/council' | '/pulse' | '/ripple'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CouncilRoute: typeof CouncilRoute
   PulseRoute: typeof PulseRoute
+  RippleRoute: typeof RippleRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/ripple': {
+      id: '/ripple'
+      path: '/ripple'
+      fullPath: '/ripple'
+      preLoaderRoute: typeof RippleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pulse': {
       id: '/pulse'
       path: '/pulse'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CouncilRoute: CouncilRoute,
   PulseRoute: PulseRoute,
+  RippleRoute: RippleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
