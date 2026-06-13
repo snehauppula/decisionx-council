@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PulseRouteImport } from './routes/pulse'
+import { Route as CouncilRouteImport } from './routes/council'
 import { Route as IndexRouteImport } from './routes/index'
 
 const PulseRoute = PulseRouteImport.update({
   id: '/pulse',
   path: '/pulse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CouncilRoute = CouncilRouteImport.update({
+  id: '/council',
+  path: '/council',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/council': typeof CouncilRoute
   '/pulse': typeof PulseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/council': typeof CouncilRoute
   '/pulse': typeof PulseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/council': typeof CouncilRoute
   '/pulse': typeof PulseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/pulse'
+  fullPaths: '/' | '/council' | '/pulse'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pulse'
-  id: '__root__' | '/' | '/pulse'
+  to: '/' | '/council' | '/pulse'
+  id: '__root__' | '/' | '/council' | '/pulse'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CouncilRoute: typeof CouncilRoute
   PulseRoute: typeof PulseRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/pulse'
       fullPath: '/pulse'
       preLoaderRoute: typeof PulseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/council': {
+      id: '/council'
+      path: '/council'
+      fullPath: '/council'
+      preLoaderRoute: typeof CouncilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CouncilRoute: CouncilRoute,
   PulseRoute: PulseRoute,
 }
 export const routeTree = rootRouteImport
