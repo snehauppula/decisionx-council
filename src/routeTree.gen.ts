@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RippleRouteImport } from './routes/ripple'
 import { Route as PulseRouteImport } from './routes/pulse'
 import { Route as CouncilRouteImport } from './routes/council'
+import { Route as BriefingRouteImport } from './routes/briefing'
 import { Route as IndexRouteImport } from './routes/index'
 
 const RippleRoute = RippleRouteImport.update({
@@ -29,6 +30,11 @@ const CouncilRoute = CouncilRouteImport.update({
   path: '/council',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BriefingRoute = BriefingRouteImport.update({
+  id: '/briefing',
+  path: '/briefing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/briefing': typeof BriefingRoute
   '/council': typeof CouncilRoute
   '/pulse': typeof PulseRoute
   '/ripple': typeof RippleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/briefing': typeof BriefingRoute
   '/council': typeof CouncilRoute
   '/pulse': typeof PulseRoute
   '/ripple': typeof RippleRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/briefing': typeof BriefingRoute
   '/council': typeof CouncilRoute
   '/pulse': typeof PulseRoute
   '/ripple': typeof RippleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/council' | '/pulse' | '/ripple'
+  fullPaths: '/' | '/briefing' | '/council' | '/pulse' | '/ripple'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/council' | '/pulse' | '/ripple'
-  id: '__root__' | '/' | '/council' | '/pulse' | '/ripple'
+  to: '/' | '/briefing' | '/council' | '/pulse' | '/ripple'
+  id: '__root__' | '/' | '/briefing' | '/council' | '/pulse' | '/ripple'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BriefingRoute: typeof BriefingRoute
   CouncilRoute: typeof CouncilRoute
   PulseRoute: typeof PulseRoute
   RippleRoute: typeof RippleRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CouncilRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/briefing': {
+      id: '/briefing'
+      path: '/briefing'
+      fullPath: '/briefing'
+      preLoaderRoute: typeof BriefingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BriefingRoute: BriefingRoute,
   CouncilRoute: CouncilRoute,
   PulseRoute: PulseRoute,
   RippleRoute: RippleRoute,
